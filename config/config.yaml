@@ -1,0 +1,35 @@
+# Weather Data Shipper Configuration
+polling_interval: 60
+
+data_sources:
+  - type: openweathermap
+    cities: ["Berlin", "London", "Tokyo"]
+    enabled: true
+
+  - type: weatherapi
+    cities: ["Sydney", "Paris", "New York"]
+    enabled: true
+
+  - type: csv
+    file_path: "./weather_data.csv"
+    enabled: true
+
+logz_io:
+  host: "listener.logz.io"
+  port: 8071
+
+# Robustness settings
+network:
+  request_timeout: 15
+  retry_attempts: 3
+  retry_delay_base: 2
+
+data_processing:
+  batch_size: 100
+  skip_invalid_records: true
+  max_consecutive_failures: 5
+
+application:
+  shutdown_timeout: 30
+  persist_on_shutdown: true
+  recovery_file: "./unsent_data.jsonl"
